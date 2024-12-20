@@ -264,3 +264,36 @@ class TestTextToSpeech:
             voices=voices, target_language_region=""
         )
         assert result[0].region == "US"
+
+    def test_update_utterance_metadata_assigned_voice_from_speaker(self):
+        utterance_metadata = [
+            {"speaker_id": "1", "text": "Hello"},
+            {"speaker_id": "2", "text": "World"},
+        ]
+        assigned_voices = {
+            "1": "VoiceA",
+            "2": "VoiceB",
+        }
+
+        expected_output = [
+            {
+                "speaker_id": "1",
+                "text": "Hello",
+                "assigned_voice": "VoiceA",
+                "speed": 1.0,
+            },
+            {
+                "speaker_id": "2",
+                "text": "World",
+                "assigned_voice": "VoiceB",
+                "speed": 1.0,
+            },
+        ]
+
+        # Call the method
+        result = TextToSpeechUT().update_utterance_metadata(
+            utterance_metadata=utterance_metadata,
+            assigned_voices=assigned_voices,
+        )
+
+        assert result == expected_output
